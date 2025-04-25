@@ -6,9 +6,9 @@
 
 # COMMAND ----------
 
-# MAGIC %md ### 0. Select a cluster
+# MAGIC %md ### 0. Select a cluster: Serverless
 # MAGIC
-# MAGIC Press the Connect dropdown in the upper left menu, and select UC Shared cluster 1/2/3/4 etc
+# MAGIC Press the Connect dropdown in the upper left menu, and select Serverless
 
 # COMMAND ----------
 
@@ -19,12 +19,25 @@
 
 # COMMAND ----------
 
+# MAGIC %pip install brickops=0.3.16
+
+# COMMAND ----------
+
 # MAGIC %md
 # MAGIC ##### 1.1. Create schemas (AKA databases)
 
 # COMMAND ----------
 
-from libs.dbname import dbname
+# MAGIC %pip install brickops==0.3.16
+
+# COMMAND ----------
+
+# Restart python to have access to pip modules
+dbutils.library.restartPython()
+
+# COMMAND ----------
+
+from brickops.datamesh.naming import dbname
 
 # COMMAND ----------
 

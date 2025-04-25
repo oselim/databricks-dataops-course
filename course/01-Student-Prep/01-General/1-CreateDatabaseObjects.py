@@ -25,11 +25,28 @@
 
 # COMMAND ----------
 
-from libs.dbname import dbname
+# %pip install brickops=0.3.16
+# %pip install git+https://github.com/brickops/brickops.git@feature/file-cfg
+%pip install brickops=0.3.16
 
 # COMMAND ----------
 
-catalog = "acme_transport_taxinyc"
+# Restart python to access updated packages
+dbutils.library.restartPython()
+
+# COMMAND ----------
+
+from brickops.datamesh.naming import dbname
+
+# COMMAND ----------
+
+# If you want more info, you can enable logging
+# import logging
+# logging.getLogger("brickops").setLevel(logging.INFO)
+
+# COMMAND ----------
+
+catalog = "transport"
 revenue_db = dbname(cat=catalog, db="revenue")
 print("New db name: " + revenue_db)
 spark.sql(f"USE catalog {catalog}")
@@ -43,7 +60,7 @@ spark.sql(f"CREATE DATABASE IF NOT EXISTS {revenue_db}")
 # COMMAND ----------
 
 # MAGIC %sql
-# MAGIC USE CATALOG acme_transport_taxinyc;
+# MAGIC USE CATALOG transport;
 # MAGIC SHOW DATABASES;
 
 # COMMAND ----------

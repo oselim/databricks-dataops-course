@@ -5,7 +5,18 @@
 
 # COMMAND ----------
 
-!pip install pyyaml
+# # Enable live reloading of libs, not needed now
+# %load_ext autoreload
+# %autoreload 2
+
+# COMMAND ----------
+
+!pip install brickops==0.3.16
+
+# COMMAND ----------
+
+# Restart python to have access to pip modules
+dbutils.library.restartPython()
 
 # COMMAND ----------
 
@@ -15,21 +26,26 @@
 
 # COMMAND ----------
 
-# # Enable live reloading of libs, not needed now
+# Restart python to access updated packages
+dbutils.library.restartPython()
+
+# COMMAND ----------
+
+# # # Enable live reloading of libs, not needed now
 # %load_ext autoreload
 # %autoreload 2
 
 # COMMAND ----------
 
 import requests
-from libs.dataops.deploy.autopipeline import autopipeline
-from libs.dataops.pipeline import run_pipeline_by_name, run_pipeline
+from brickops.dataops.deploy.autopipeline import autopipeline
+from brickops.dataops.pipeline import run_pipeline_by_name, run_pipeline
 
 # COMMAND ----------
 
 # Name functions enables automatic env+user specific database naming
-from libs.catname import catname_from_path
-from libs.dbname import dbname
+from brickops.datamesh.naming import catname_from_path
+from brickops.datamesh.naming import dbname
 
 # COMMAND ----------
 
@@ -52,9 +68,14 @@ spark.sql(f"CREATE DATABASE IF NOT EXISTS {db}")
 
 # COMMAND ----------
 
-# Deploy pipelines based on deployment.yml, in dev mode, specified by env param
+# Show more output from brickops
+import logging
+logging.getLogger("brickops").setLevel(logging.INFO)
 
-response = autopipeline(env="dev")
+# COMMAND ----------
+
+# Deploy pipelines based on deployment.yml, in dev mode, specified by env param
+response = autopipeline()
 response
 
 # COMMAND ----------
@@ -65,17 +86,18 @@ response
 
 # COMMAND ----------
 
-# For now we will not run pipeline by id, but name instead
-# as it survives a cluster reconnect, since name is idempotent
+# Run the pipeline by pipeline ID
+# If you get KeyError: 'pipeline_id', it could because you have recreated a pipeline, in which case
+# you need to use run_pipeline_by_name()
 run_pipeline(
-    dbutils=dbutils, 
     pipeline_id=response["response"]["pipeline_id"]
 )
 
 # COMMAND ----------
 
-# Can be used when the pipeline created has the same name as one previously recreated
-# run_pipeline_by_name(dbutils=dbutils, 
+# Can be used when the pipeline created has the same name as one previously recreated,
+# but note that names are no longer idempotent in Databricks
+# run_pipeline_by_name(
 #    pipeline_name=response["pipeline_name"])
 
 # COMMAND ----------
@@ -84,12 +106,13 @@ run_pipeline(
 # MAGIC
 # MAGIC ## Tasks for later
 # MAGIC ### Task: Deploy to prod
+# MAGIC
+# MAGIC This task will fail if the pipeline already exists as there can only be one production job.
+# MAGIC The error code might be `CHANGES_UC_PIPELINE_TO_HMS_NOT_ALLOWED`.
 
 # COMMAND ----------
 
-# import os
-# os.environ["DEPLOYMENT_ENV"] = "prod"
-# # Deploy pipelines based on deployment.yml, in dev mode
+# Deploy pipelines based on deployment.yml, in dev mode
 # prod_response = autopipeline(env="prod")
 
 # COMMAND ----------
@@ -101,10 +124,6 @@ run_pipeline(
 # COMMAND ----------
 
 # run_pipeline(
-#     dbutils=dbutils, 
 #     pipeline_id=prod_response["response"]["pipeline_id"]
 # )
-
-# COMMAND ----------
-
 

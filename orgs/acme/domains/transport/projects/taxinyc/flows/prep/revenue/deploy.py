@@ -5,7 +5,12 @@
 
 # COMMAND ----------
 
-!pip install pyyaml
+%pip install brickops=0.3.16
+
+# COMMAND ----------
+
+# Restart python to access updated packages
+dbutils.library.restartPython()
 
 # COMMAND ----------
 
@@ -22,8 +27,8 @@
 # COMMAND ----------
 
 import requests
-from libs.dataops.deploy.autojob import autojob
-from libs.dataops.job import run_job_by_name
+from brickops.dataops.deploy.autojob import autojob
+from brickops.dataops.job import run_job_by_name
 
 # COMMAND ----------
 
@@ -33,8 +38,10 @@ from libs.dataops.job import run_job_by_name
 
 # COMMAND ----------
 
+import logging
+logging.getLogger("brickops").setLevel(logging.INFO)
 # Deploy jobs based on deployment.yml, in dev mode, specified by env param
-response = autojob(env="dev")
+response = autojob(env="test")
 
 # COMMAND ----------
 

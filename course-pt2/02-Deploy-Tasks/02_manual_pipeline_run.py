@@ -30,11 +30,11 @@
 # MAGIC
 # MAGIC `borough_population` is an intermediate internal dataset.
 # MAGIC
-# MAGIC The data product will be written as the UC schema `acme_transport_taxinyc.revenue`.
+# MAGIC In production, the data product will be written as the UC schema `acme_transport_taxinyc.revenue`.
 # MAGIC
 # MAGIC ## Task: Run the notebooks manually.
 # MAGIC
-# MAGIC For each notebook, connect to the UC Shared Cluster you have been assigned, and run through the cells. Study the cells as you run them.
+# MAGIC For each notebook, connect to Serverless, and run through the cells. Study the cells as you run them.
 # MAGIC
 # MAGIC Go to `orgs/acme/domains/transport/projects/taxinyc/flows/prep/revenue/`
 # MAGIC
