@@ -16,4 +16,17 @@
 
 # MAGIC %md
 # MAGIC
-# MAGIC Answer here...
+# MAGIC Answer here...  
+# MAGIC borough_population  
+# MAGIC
+# MAGIC revenue_by_borough  
+# MAGIC
+# MAGIC revenue_by_tripmonth  
+# MAGIC
+# MAGIC revenue_per_inhabitant  
+# MAGIC
+# MAGIC trips  
+
+# COMMAND ----------
+
+

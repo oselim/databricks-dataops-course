@@ -39,7 +39,7 @@ def trips():
     comment="Aggregated revenue by pickup borough",
     table_properties={"quality": "silver"}
 )
-@dlt.expect_all_or_fail({
+@dlt.expect_all_or_drop({
         "pickup_borough_not_null": "pickup_borough IS NOT NULL",
         "pickup_borough_not_unknown": "pickup_borough <> 'Unknown'",
     }
